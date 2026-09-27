@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Propuesta SEO — Sinapsis Agencia Digital</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+  [hidden]{ display:none !important; }
+
+  :root{
+    --ink:#111111;
+    --paper:#ffffff;
+    --surface:#ffffff;
+    --surface-2:#f6f5f1;
+    --line:#e3e1d6;
+    --muted:#5c5a52;
+    --accent:#f2b705;
+    --accent-soft:#fff3c4;
+    --accent-ink:#171400;
+    --accent-text:#8a6a00;
+    --success:#1f7a43;
+    --success-soft:#e2f1e8;
+    --danger:#a3402f;
+    --shadow: 0 1px 2px rgba(20,18,10,.05), 0 8px 24px -12px rgba(20,18,10,.18);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#f3f1e8;
+      --paper:#0b0b0a;
+      --surface:#171613;
+      --surface-2:#1e1c17;
+      --line:#35322a;
+      --muted:#a9a596;
+      --accent:#f5c400;
+      --accent-soft:#3a2e00;
+      --accent-ink:#161200;
+      --accent-text:#f0cd5c;
+      --success:#4ec97f;
+      --success-soft:#173321;
+      --danger:#e2685c;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 12px 30px -14px rgba(0,0,0,.65);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#f3f1e8;
+    --paper:#0b0b0a;
+    --surface:#171613;
+    --surface-2:#1e1c17;
+    --line:#35322a;
+    --muted:#a9a596;
+    --accent:#f5c400;
+    --accent-soft:#3a2e00;
+    --accent-ink:#161200;
+    --accent-text:#f0cd5c;
+    --success:#4ec97f;
+    --success-soft:#173321;
+    --danger:#e2685c;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 12px 30px -14px rgba(0,0,0,.65);
+    color-scheme: dark;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', system-ui, sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    padding-inline:16px;
+  }
+  .wrap{ max-width:1040px; margin:0 auto; padding-block:28px 120px; }
+  h1,h2,h3{ font-family:'Fraunces', Georgia, serif; text-wrap:balance; margin:0; }
+  .num{ font-variant-numeric: tabular-nums; }
+
+  /* ---------- header ---------- */
+  .top{
+    display:flex; flex-wrap:wrap; gap:16px 24px;
+    align-items:flex-end; justify-content:space-between;
+    padding-bottom:22px; margin-bottom:26px;
+    border-bottom:1px solid var(--line);
+  }
+  .top .kicker{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--accent-ink); background:var(--accent);
+    padding:4px 11px; border-radius:999px; margin-bottom:10px;
+  }
+  .top h1{ font-size:clamp(26px,4vw,36px); font-weight:600; }
+  .top p{ margin:8px 0 0; color:var(--muted); max-width:56ch; font-size:14.5px; }
+  .fx-chip{
+    display:flex; align-items:center; gap:9px;
+    background:var(--surface); border:1px solid var(--line); border-radius:999px;
+    padding:9px 16px; box-shadow:var(--shadow); font-size:13px; white-space:nowrap;
+  }
+  .fx-dot{ width:7px; height:7px; border-radius:50%; background:var(--success); flex-shrink:0; }
+  .fx-dot.stale{ background:var(--muted); }
+  .fx-chip b{ font-weight:600; }
+  .fx-chip .fx-note{ color:var(--muted); font-size:11.5px; }
+
+  /* ---------- layout ---------- */
+  .grid{ display:grid; grid-template-columns: 1fr 340px; gap:28px; align-items:start; }
+  @media (max-width:860px){ .grid{ grid-template-columns:1fr; } }
+
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:22px 24px; box-shadow:var(--shadow); margin-bottom:20px;
+  }
+  .card h2{ font-size:19px; font-weight:600; margin-bottom:4px; }
+  .card .sub{ color:var(--muted); font-size:13.5px; margin:0 0 16px; }
+
+  /* section label */
+  .step-label{ display:flex; align-items:center; gap:9px; margin-bottom:14px; }
+  .step-label .n{
+    width:22px; height:22px; border-radius:50%; background:var(--accent-soft); color:var(--accent-ink);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;
+  }
+  .step-label span.t{ font-size:12.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+
+  /* segmented control */
+  .segmented{ display:flex; flex-wrap:wrap; gap:8px; }
+  .segmented label{
+    flex:1 1 150px; position:relative; cursor:pointer;
+    border:1px solid var(--line); border-radius:11px; padding:12px 14px;
+    background:var(--surface-2); transition:border-color .15s ease, background .15s ease;
+  }
+  .segmented input{ position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; }
+  .segmented .name{ display:block; font-weight:600; font-size:14px; }
+  .segmented .hint{ display:block; color:var(--muted); font-size:12px; margin-top:2px; }
+  .segmented label:has(input:checked){ border-color:var(--accent); background:var(--accent-soft); }
+  .segmented label:has(input:checked) .name{ color:var(--accent-ink); }
+  .segmented label:has(input:focus-visible){ outline:2px solid var(--accent); outline-offset:2px; }
+
+  /* service toggle row */
+  .svc{
+    border:1px solid var(--line); border-radius:13px; padding:16px 18px; margin-bottom:12px;
+    background:var(--surface-2);
+  }
+  .svc:last-child{ margin-bottom:0; }
+  .svc-head{ display:flex; align-items:flex-start; gap:12px; }
+  .switch{ position:relative; width:40px; height:24px; flex-shrink:0; margin-top:2px; }
+  .switch input{ position:absolute; inset:0; opacity:0; cursor:pointer; margin:0; z-index:2; }
+  .switch .track{ position:absolute; inset:0; background:var(--line); border-radius:999px; transition:background .15s ease; }
+  .switch .thumb{
+    position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:50%;
+    background:var(--surface); box-shadow:0 1px 3px rgba(0,0,0,.25); transition:transform .15s ease;
+  }
+  .switch input:checked + .track{ background:var(--accent); }
+  .switch input:checked ~ .thumb{ transform:translateX(16px); background:var(--accent-ink); }
+  .switch input:focus-visible ~ .track{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .svc-title{ font-weight:600; font-size:15.5px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .badge{
+    font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    background:var(--success-soft); color:var(--success); border-radius:999px; padding:2px 9px;
+  }
+  .svc-desc{ color:var(--muted); font-size:13px; margin-top:3px; }
+  .svc-body{ margin-top:14px; padding-top:14px; border-top:1px dashed var(--line); }
+  .svc-body[hidden]{ display:none; }
+
+  .tier-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+  .tier{
+    flex:1 1 160px; position:relative; cursor:pointer;
+    border:1px solid var(--line); border-radius:11px; padding:11px 13px; background:var(--surface);
+  }
+  .tier input{ position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; }
+  .tier:has(input:checked){ border-color:var(--accent); background:var(--accent-soft); }
+  .tier .t-name{ font-weight:600; font-size:13.5px; }
+  .tier .t-price{ font-size:13px; margin-top:3px; color:var(--muted); }
+  .tier .t-price .now{ color:var(--ink); font-weight:600; }
+  .tier:has(input:checked) .t-price .now{ color:var(--accent-ink); }
+  .tier .t-price s{ opacity:.7; margin-right:4px; text-decoration-color:var(--muted); }
+  .proposed-mark{ font-size:10px; vertical-align:top; color:var(--accent-text); cursor:help; font-weight:600; }
+
+  .incl-label{ font-size:12px; font-weight:600; color:var(--muted); margin:14px 0 8px; text-transform:uppercase; letter-spacing:.04em; }
+  .feature-list{ list-style:none; margin:0; padding:0; display:grid; gap:7px; }
+  .feature-list li{ font-size:12.5px; color:var(--muted); display:flex; gap:7px; }
+  .feature-list li::before{ content:"✓"; color:var(--success); font-weight:700; flex-shrink:0; }
+  .feature-list li.courtesy{ color:var(--ink); font-weight:500; background:var(--accent-soft); border-radius:8px; padding:7px 9px; margin-top:2px; }
+  .feature-list li.courtesy::before{ content:"★"; color:var(--accent-text); }
+
+  /* add-on cards (LinkedIn, newsletter, redes sociales) */
+  .addons-group{ display:grid; gap:10px; margin-top:6px; }
+  .addon-card{
+    display:block; cursor:pointer; border:1px solid var(--line); border-radius:12px;
+    padding:13px 15px; background:var(--surface); transition:border-color .15s ease, background .15s ease;
+  }
+  .addon-card:has(input:checked){ border-color:var(--accent); background:var(--accent-soft); }
+  .addon-card-head{ display:flex; align-items:flex-start; gap:11px; }
+  .addon-title{ font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .addon-tag{
+    font-size:9.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    background:var(--ink); color:var(--paper); border-radius:999px; padding:2px 8px;
+  }
+  .addon-desc{ color:var(--muted); font-size:12.5px; margin-top:3px; }
+  .addon-price{
+    display:flex; align-items:baseline; gap:8px; margin-top:11px; padding-top:11px;
+    border-top:1px dashed var(--line); font-size:13px;
+  }
+  .addon-price s{ color:var(--muted); text-decoration-color:var(--muted); }
+  .addon-price .now{ font-weight:700; color:var(--ink); }
+  .addon-price .now.free{ color:var(--success); }
+  .addon-card:has(input:checked) .addon-price .now{ color:var(--accent-ink); }
+  .addon-card:has(input:checked) .addon-price .now.free{ color:var(--success); }
+
+  .checkbox{ position:relative; width:19px; height:19px; flex-shrink:0; margin-top:1px; }
+  .checkbox input{ position:absolute; inset:0; opacity:0; cursor:pointer; margin:0; z-index:2; }
+  .checkbox .box{ position:absolute; inset:0; border:1.5px solid var(--muted); border-radius:5px; background:var(--surface); }
+  .checkbox input:checked + .box{ background:var(--accent); border-color:var(--accent); }
+  .checkbox .box::after{
+    content:""; position:absolute; left:5px; top:1px; width:5px; height:9px;
+    border:solid var(--accent-ink); border-width:0 2px 2px 0; transform:rotate(45deg); opacity:0;
+  }
+  .checkbox input:checked + .box::after{ opacity:1; }
+  .checkbox input:focus-visible + .box{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  /* summary panel */
+  .summary{ position:sticky; top:16px; }
+  .summary h2{ font-size:16px; }
+  .line-item{
+    display:flex; justify-content:space-between; gap:10px; padding:9px 0;
+    border-bottom:1px solid var(--line); font-size:13px;
+  }
+  .line-item:last-of-type{ border-bottom:none; }
+  .li-label{ color:var(--ink); }
+  .li-label small{ display:block; color:var(--muted); font-size:11px; margin-top:1px; }
+  .li-price{ text-align:right; white-space:nowrap; font-weight:600; }
+  .li-price .eur{ display:block; color:var(--muted); font-weight:400; font-size:11.5px; }
+  .li-price s{ color:var(--muted); text-decoration-color:var(--muted); margin-right:5px; font-weight:400; }
+  .li-price .free-tag{ color:var(--success); font-weight:700; }
+  .empty-note{ color:var(--muted); font-size:13px; padding:14px 0; text-align:center; }
+
+  .total-block{ margin-top:14px; padding-top:14px; border-top:1.5px solid var(--ink); }
+  .total-row{ display:flex; justify-content:space-between; align-items:flex-end; gap:10px; }
+  .total-row .label{ font-size:13px; color:var(--muted); }
+  .amt-wrap{ display:flex; flex-direction:column; align-items:flex-end; }
+  .list-total{ font-size:13px; color:var(--muted); text-decoration-color:var(--muted); margin-bottom:1px; }
+  .amt-pair{ display:flex; align-items:baseline; gap:7px; flex-wrap:wrap; justify-content:flex-end; }
+  .total-row .amt{ font-family:'Fraunces',serif; font-size:24px; font-weight:600; }
+  .total-row .amt-sep{ font-size:14px; color:var(--muted); }
+  .total-row .amt.amt-eur{ font-size:19px; color:var(--muted); }
+  .first-month-note{
+    margin-top:10px; font-size:12px; color:var(--success); background:var(--success-soft);
+    border-radius:8px; padding:8px 11px;
+  }
+
+  .cta-group{ display:grid; gap:12px; margin-top:18px; }
+  .cta-item{ display:flex; flex-direction:column; gap:5px; }
+  .cta-item[hidden]{ display:none; }
+  .btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    border:none; border-radius:10px; padding:13px 16px; font-family:inherit;
+    font-size:14px; font-weight:600; cursor:pointer; text-decoration:none; text-align:center;
+    transition:transform .1s ease, opacity .15s ease;
+  }
+  .btn:active{ transform:scale(.98); }
+  .btn-primary{ background:var(--accent); color:var(--accent-ink); }
+  .btn-secondary{ background:transparent; border:1.5px solid var(--ink); color:var(--ink); }
+  .btn-tertiary{ background:var(--surface-2); border:1px dashed var(--line); color:var(--muted); }
+  .btn.is-disabled{ opacity:.5; }
+  .btn[hidden]{ display:none; }
+  .cta-caption{ font-size:11.5px; color:var(--muted); text-align:center; margin:0; line-height:1.4; }
+  .copy-address{ font-size:12px; color:var(--muted); text-align:center; margin-top:2px; }
+  .copy-address b{ color:var(--ink); font-weight:600; user-select:all; }
+
+  .toast{
+    position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(140%);
+    background:var(--ink); color:var(--paper); padding:11px 18px; border-radius:999px;
+    font-size:13px; font-weight:600; box-shadow:var(--shadow); transition:transform .25s ease;
+    z-index:50; pointer-events:none; white-space:nowrap;
+  }
+  .toast.show{ transform:translateX(-50%) translateY(0); }
+
+  .foot-note{ margin-top:26px; color:var(--muted); font-size:12px; text-align:center; }
+
+  /* sticky mobile price bar */
+  .sticky-bar{
+    display:none; position:fixed; left:0; right:0; bottom:0; z-index:40;
+    background:var(--surface); border-top:1px solid var(--line);
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));
+    align-items:center; justify-content:space-between; gap:14px;
+    box-shadow:0 -8px 24px -12px rgba(20,15,0,.25);
+  }
+  .sticky-bar .sb-total{ line-height:1.15; }
+  .sticky-bar .sb-label{ display:block; font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+  .sticky-bar .sb-amt{ font-family:'Fraunces',serif; font-size:19px; font-weight:600; }
+  .sticky-bar .sb-sep{ font-size:11px; color:var(--muted); margin:0 3px; }
+  .sticky-bar .sb-amt-eur{ font-size:14px; color:var(--muted); }
+  .sticky-bar .btn{ padding:11px 18px; font-size:13.5px; flex-shrink:0; }
+  @media (max-width:860px){
+    .sticky-bar{ display:flex; }
+    .wrap{ padding-bottom:96px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="top">
+    <div>
+      <span class="kicker">Sinapsis Agencia Digital</span>
+      <h1>Propuesta de SEO</h1>
+      <p>Elige lo que quieres contratar para Versus Andorra y Andorra Buyers — SEO, contenido, redes, LinkedIn, newsletter y CRM. El total se calcula al instante, en dólares y en euros, y puedes copiarlo, enviarlo por WhatsApp o descargarlo en PDF.</p>
+    </div>
+    <div class="fx-chip">
+      <span class="fx-dot" id="fxDot"></span>
+      <span>1 USD <span id="fxRate" class="num">≈ 0,88</span> EUR</span>
+      <span class="fx-note" id="fxNote">cargando tipo de cambio…</span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+
+      <!-- STEP 1: SCOPE -->
+      <div class="card">
+        <div class="step-label"><span class="n">1</span><span class="t">Sitio a trabajar</span></div>
+        <div class="segmented" id="scopeGroup">
+          <label>
+            <input type="radio" name="scope" value="versus" checked>
+            <span class="name">Versus Andorra</span>
+            <span class="hint">Inmobiliaria de lujo</span>
+          </label>
+          <label>
+            <input type="radio" name="scope" value="buyers">
+            <span class="name">Andorra Buyers</span>
+            <span class="hint">Verificación de compra</span>
+          </label>
+          <label>
+            <input type="radio" name="scope" value="both">
+            <span class="name">Ambos sitios</span>
+            <span class="hint">Paquete combinado</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- STEP 2: SERVICES -->
+      <div class="card">
+        <div class="step-label"><span class="n">2</span><span class="t">Servicios</span></div>
+
+        <div class="svc">
+          <div class="svc-head">
+            <div style="flex:1">
+              <div class="svc-title">SEO, Contenido y Visibilidad en IA</div>
+              <div class="svc-desc">Artículos optimizados cada mes — para buscadores tradicionales y para los motores de respuesta con IA (AEO).</div>
+            </div>
+          </div>
+
+          <div class="svc-body" id="seoBody">
+            <div class="tier-row" id="tierGroup"></div>
+
+            <p class="incl-label">Esto es lo que se trabaja cada mes:</p>
+            <ul class="feature-list">
+              <li>Investigación de intención de búsqueda y entidades, no solo palabras clave sueltas</li>
+              <li>Redacción de artículos originales, verificados y optimizados para buscadores y para IA</li>
+              <li>Optimización on-page: títulos, metadescripciones, encabezados y enlaces internos</li>
+              <li>Datos estructurados (schema Organization / RealEstateAgent / FAQ) para que ChatGPT, Gemini y las IA Overviews de Google entiendan el contenido</li>
+              <li>Indexación en Google Search Console</li>
+              <li>Análisis mensual de posicionamiento y ajustes técnicos</li>
+              <li class="courtesy">Cortesía: actualizamos textos e imágenes de tu web que nos envíes, sin cargo adicional</li>
+            </ul>
+
+            <p class="incl-label">Add-ons — súmalos a tu plan de SEO</p>
+            <div class="addons-group" id="addonsGroup"></div>
+          </div>
+        </div>
+
+        <p class="incl-label">Otro servicio disponible</p>
+        <div class="addons-group">
+          <label class="addon-card" id="crmCard">
+            <div class="addon-card-head">
+              <div class="checkbox"><input type="checkbox" id="crmToggle"><div class="box"></div></div>
+              <div style="flex:1">
+                <div class="addon-title">Mantenimiento de CRM <span class="addon-tag">Add-on</span> <span class="badge">1er mes gratis</span></div>
+                <div class="addon-desc" id="crmDesc">Limpieza y actualización de tu CRM — Versus Andorra. $25 USD/mes, el primer mes no se cobra.</div>
+              </div>
+            </div>
+            <div class="addon-price"><span class="now num">$25 USD/mes</span></div>
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary" id="summaryPanel">
+      <div class="card" style="margin-bottom:0;">
+        <h2>Tu selección</h2>
+        <div id="lineItems"></div>
+        <div class="total-block">
+          <div class="total-row">
+            <span class="label">Total mensual</span>
+            <span class="amt-wrap">
+              <s class="list-total num" id="listTotalUSD" hidden></s>
+              <span class="amt-pair">
+                <span class="amt num" id="totalUSD">$0</span>
+                <span class="amt-sep">≈</span>
+                <span class="amt amt-eur num" id="totalEUR">€0</span>
+              </span>
+            </span>
+          </div>
+          <div class="first-month-note" id="firstMonthNote" hidden></div>
+        </div>
+
+        <div class="cta-group" id="ctaGroup">
+          <div class="cta-item">
+            <a class="btn btn-primary" id="btnWhatsapp" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+            <p class="cta-caption" id="waCaption"></p>
+          </div>
+          <div class="cta-item">
+            <button class="btn btn-secondary" id="btnCopy" type="button">Copiar resumen</button>
+            <p class="cta-caption">Copia el texto de tu selección para pegarlo tú mismo donde quieras.</p>
+          </div>
+          <div class="cta-item" id="pdfItem" hidden>
+            <button class="btn btn-tertiary" id="btnPdf" type="button">Descargar PDF</button>
+            <p class="cta-caption">Genera un PDF de tu selección para guardarlo o compartirlo tú mismo.</p>
+          </div>
+        </div>
+        <p class="copy-address">¿Prefieres escribir directamente? <b>lzorogastua@gmail.com</b></p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="foot-note">No se solicitan tus datos para ver ni enviar esta propuesta. Precios de referencia sujetos a confirmación con Sinapsis Agencia Digital antes de iniciar el servicio. Tipo de cambio orientativo, no válido para facturación.</p>
+</div>
+
+<div class="sticky-bar" id="stickyBar">
+  <div class="sb-total">
+    <span class="sb-label">Total mensual</span>
+    <span class="sb-amt num" id="sbTotalUSD">$0</span><span class="sb-sep">≈</span><span class="sb-amt sb-amt-eur num" id="sbTotalEUR">€0</span>
+  </div>
+  <a class="btn btn-primary" id="btnConfirmSticky" href="#" target="_blank" rel="noopener">Confirmar</a>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- pricing config ----------------
+     Marcados "propuesto" los valores que Isaac no dio explícitamente
+     y se derivaron por lógica a partir de los que sí dio. Fácil de
+     ajustar: solo hay que cambiar los números aquí abajo.
+  --------------------------------------------------- */
+  var PRICING = {
+    seo: {
+      single: {
+        2: { price:260, priceProposed:false, list:300, listProposed:false },
+        3: { price:290, priceProposed:false, list:330, listProposed:true }
+      },
+      combined: {
+        2: { price:550, priceProposed:false, list:600, listProposed:false },
+        3: { price:610, priceProposed:true,  list:660, listProposed:true }
+      }
+    },
+    addons: {
+      social: {
+        title: "Redes sociales adicionales",
+        desc: "Adaptamos el diseño de cada artículo al formato de Facebook e Instagram y programamos su publicación.",
+        single:   { price:20, priceProposed:false, list:30, listProposed:true },
+        combined: { price:35, priceProposed:true,  list:50, listProposed:true }
+      },
+      linkedin: {
+        title: "Publicación en LinkedIn",
+        desc: "Adaptamos cada artículo con copy propio y lo publicamos en el perfil de empresa de LinkedIn. Cortesía, sin cargo.",
+        single:   { price:0, priceProposed:false, list:15, listProposed:false },
+        combined: { price:0, priceProposed:false, list:25, listProposed:false }
+      },
+      newsletter: {
+        title: "Newsletter semanal (MailerLite)",
+        desc: "Envío semanal por newsletter a tu base de datos actual, con diseño y redacción incluidos. Cortesía, sin cargo.",
+        single:   { price:0, priceProposed:false, list:25, listProposed:false },
+        combined: { price:0, priceProposed:false, list:40, listProposed:false }
+      }
+    },
+    crm: { price:25, priceProposed:false, list:35, listProposed:true, firstMonthFree:true }
+  };
+
+  var FALLBACK_RATE = 0.8776; // USD->EUR, 27 sep 2026 (xe.com), usado si falla la consulta en vivo
+  var WHATSAPP_NUMBER = "51970540365"; // Sinapsis Agencia Digital — vacío = botón de WhatsApp queda a la espera
+
+  var ADDON_KEYS = ["social","linkedin","newsletter"];
+
+  var state = {
+    scope: "versus",
+    postsPerMonth: 2,
+    addons: { social:false, linkedin:false, newsletter:false },
+    crmEnabled: false
+  };
+  var eurRate = FALLBACK_RATE;
+  var lastSummaryText = "";
+  var downloadsApi = null;
+
+  var fmtUSD = new Intl.NumberFormat("en-US", { style:"currency", currency:"USD", maximumFractionDigits:0 });
+  var fmtEUR = new Intl.NumberFormat("de-DE", { style:"currency", currency:"EUR", maximumFractionDigits:0 });
+
+  function siteLabel(scope){
+    if (scope === "versus") return "Versus Andorra";
+    if (scope === "buyers") return "Andorra Buyers";
+    return "Versus Andorra + Andorra Buyers";
+  }
+
+  function computeItems(){
+    var items = [];
+    var isCombined = state.scope === "both";
+    var tier = isCombined ? PRICING.seo.combined[state.postsPerMonth] : PRICING.seo.single[state.postsPerMonth];
+    items.push({
+      key:"seo",
+      label:"SEO + Contenido — " + siteLabel(state.scope),
+      detail: state.postsPerMonth + " artículos/mes · on-page, schema y GSC incluidos",
+      price: tier.price,
+      list: tier.list
+    });
+    ADDON_KEYS.forEach(function(key){
+      if (state.addons[key]){
+        var cfg = PRICING.addons[key];
+        var t = isCombined ? cfg.combined : cfg.single;
+        items.push({
+          key: key,
+          label: cfg.title,
+          detail: siteLabel(state.scope) + " · add-on",
+          price: t.price,
+          list: t.list
+        });
+      }
+    });
+    if (state.crmEnabled && (state.scope === "versus" || isCombined)){
+      items.push({
+        key:"crm",
+        label:"Mantenimiento de CRM",
+        detail:"Versus Andorra · primer mes gratis",
+        price: PRICING.crm.price,
+        list: PRICING.crm.list,
+        firstMonthFree:true
+      });
+    }
+    return items;
+  }
+
+  function addonCardHtml(key){
+    var cfg = PRICING.addons[key];
+    var isCombined = state.scope === "both";
+    var t = isCombined ? cfg.combined : cfg.single;
+    var checked = state.addons[key] ? "checked" : "";
+    var mark = t.priceProposed ? ' <span class="proposed-mark" title="Precio propuesto por lógica, a confirmar con Isaac">◆ propuesto</span>' : "";
+    var priceHtml = t.price === 0
+      ? '<s class="num">$' + t.list + '</s><span class="now num free">Gratis</span>'
+      : '<s class="num">$' + t.list + '</s><span class="now num">+$' + t.price + ' USD/mes</span>' + mark;
+    return '<label class="addon-card">' +
+      '<div class="addon-card-head">' +
+        '<div class="checkbox"><input type="checkbox" data-addon="' + key + '" ' + checked + '><div class="box"></div></div>' +
+        '<div style="flex:1">' +
+          '<div class="addon-title">' + cfg.title + '<span class="addon-tag">Add-on</span></div>' +
+          '<div class="addon-desc">' + cfg.desc + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="addon-price">' + priceHtml + '</div>' +
+    '</label>';
+  }
+
+  function render(){
+    // tier options
+    var tierGroup = document.getElementById("tierGroup");
+    var tiers = state.scope === "both" ? PRICING.seo.combined : PRICING.seo.single;
+    var tierHtml = "";
+    [2,3].forEach(function(n){
+      var t = tiers[n];
+      var checked = state.postsPerMonth === n ? "checked" : "";
+      var mark = t.listProposed ? ' <span class="proposed-mark" title="Precio de lista propuesto por lógica, a confirmar con Isaac">◆propuesto</span>' : "";
+      tierHtml += '<label class="tier">' +
+        '<input type="radio" name="tier" value="' + n + '" ' + checked + '>' +
+        '<span class="t-name">' + n + ' artículos / mes</span>' +
+        '<span class="t-price"><s class="num">$' + t.list + '</s><span class="now num">$' + t.price + ' USD/mes</span></span>' +
+        mark +
+        '</label>';
+    });
+    tierGroup.innerHTML = tierHtml;
+    Array.prototype.forEach.call(tierGroup.querySelectorAll('input[name="tier"]'), function(el){
+      el.addEventListener("change", function(){ state.postsPerMonth = parseInt(this.value, 10); render(); });
+    });
+
+    // add-on cards
+    var addonsGroup = document.getElementById("addonsGroup");
+    addonsGroup.innerHTML = ADDON_KEYS.map(addonCardHtml).join("");
+    Array.prototype.forEach.call(addonsGroup.querySelectorAll("input[data-addon]"), function(el){
+      el.addEventListener("change", function(){ state.addons[this.dataset.addon] = this.checked; render(); });
+    });
+
+    var crmCard = document.getElementById("crmCard");
+    var crmAllowed = state.scope === "versus" || state.scope === "both";
+    var crmToggle = document.getElementById("crmToggle");
+    crmCard.style.opacity = crmAllowed ? "1" : ".45";
+    crmToggle.disabled = !crmAllowed;
+    if (!crmAllowed){ state.crmEnabled = false; crmToggle.checked = false; }
+    document.getElementById("crmDesc").textContent = crmAllowed
+      ? "Limpieza y actualización de tu CRM — Versus Andorra. $25 USD/mes, el primer mes no se cobra."
+      : "Disponible solo cuando el ámbito incluye Versus Andorra.";
+
+    // summary
+    var items = computeItems();
+    var lineItemsEl = document.getElementById("lineItems");
+    if (items.length === 0){
+      lineItemsEl.innerHTML = '<p class="empty-note">Activa al menos un servicio para ver el total.</p>';
+    } else {
+      lineItemsEl.innerHTML = items.map(function(it){
+        if (it.price === 0){
+          return '<div class="line-item">' +
+            '<span class="li-label">' + it.label + '<small>' + it.detail + '</small></span>' +
+            '<span class="li-price num"><s class="num">' + fmtUSD.format(it.list) + '</s><span class="free-tag">Gratis</span></span>' +
+            '</div>';
+        }
+        return '<div class="line-item">' +
+          '<span class="li-label">' + it.label + '<small>' + it.detail + '</small></span>' +
+          '<span class="li-price num">' + fmtUSD.format(it.price) +
+            '<span class="eur num">≈ ' + fmtEUR.format(it.price * eurRate) + '</span></span>' +
+          '</div>';
+      }).join("");
+    }
+
+    var totalUSD = items.reduce(function(s,it){ return s + it.price; }, 0);
+    var totalListUSD = items.reduce(function(s,it){ return s + (it.list || it.price); }, 0);
+
+    document.getElementById("totalUSD").textContent = fmtUSD.format(totalUSD);
+    document.getElementById("totalEUR").textContent = fmtEUR.format(totalUSD * eurRate);
+
+    var listTotalEl = document.getElementById("listTotalUSD");
+    if (items.length && totalListUSD > totalUSD){
+      listTotalEl.hidden = false;
+      listTotalEl.textContent = fmtUSD.format(totalListUSD);
+    } else {
+      listTotalEl.hidden = true;
+    }
+
+    document.getElementById("sbTotalUSD").textContent = fmtUSD.format(totalUSD);
+    document.getElementById("sbTotalEUR").textContent = fmtEUR.format(totalUSD * eurRate);
+
+    var hasCrm = items.some(function(it){ return it.firstMonthFree; });
+    var firstMonthNote = document.getElementById("firstMonthNote");
+    if (hasCrm){
+      var firstMonthUSD = totalUSD - PRICING.crm.price;
+      firstMonthNote.hidden = false;
+      firstMonthNote.innerHTML = "Primer mes: " + fmtUSD.format(firstMonthUSD) + " USD (≈ " + fmtEUR.format(firstMonthUSD * eurRate) + ") — el CRM entra gratis el primer mes.";
+    } else {
+      firstMonthNote.hidden = true;
+    }
+
+    wireCtas(buildSummaryText(items, totalUSD, totalListUSD));
+  }
+
+  function buildSummaryText(items, totalUSD, totalListUSD){
+    var lines = [];
+    lines.push("Propuesta de servicios — Sinapsis Agencia Digital");
+    lines.push("Ámbito: " + siteLabel(state.scope));
+    lines.push("");
+    items.forEach(function(it){
+      var priceText = it.price === 0 ? "Gratis (antes $" + it.list + " USD/mes)" : "$" + it.price + " USD/mes";
+      lines.push("- " + it.label + " (" + it.detail + "): " + priceText);
+    });
+    lines.push("");
+    if (totalListUSD > totalUSD){
+      lines.push("Precio sin descuento: " + fmtUSD.format(totalListUSD) + "/mes");
+    }
+    lines.push("Precio con descuento (total mensual): " + fmtUSD.format(totalUSD) + " (≈ " + fmtEUR.format(totalUSD * eurRate) + ")");
+    lines.push("");
+    lines.push("Quiero avanzar con esta selección.");
+    return lines.join("\n");
+  }
+
+  function wireCtas(text){
+    lastSummaryText = text;
+    var encoded = encodeURIComponent(text);
+    var waBtn = document.getElementById("btnWhatsapp");
+    var stickyBtn = document.getElementById("btnConfirmSticky");
+    var waCaption = document.getElementById("waCaption");
+
+    if (WHATSAPP_NUMBER){
+      var href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encoded;
+      waBtn.href = href; waBtn.classList.remove("is-disabled"); waBtn.removeAttribute("aria-disabled");
+      stickyBtn.href = href; stickyBtn.textContent = "Enviar por WhatsApp";
+      waCaption.textContent = "Al tocar este botón se abre WhatsApp Web o la app, en un chat nuevo con Sinapsis y el mensaje ya escrito con tu selección. Tú solo debes revisarlo y pulsar el botón de enviar dentro de WhatsApp — todavía no se envía nada automáticamente.";
+    } else {
+      waBtn.href = "#"; waBtn.classList.add("is-disabled"); waBtn.setAttribute("aria-disabled","true");
+      stickyBtn.removeAttribute("href"); stickyBtn.textContent = "Copiar resumen";
+      waCaption.textContent = "Aún no está activo. Al tocar este botón se copia el resumen para que lo pegues tú mismo en WhatsApp.";
+    }
+  }
+
+  function copyText(text, opts){
+    opts = opts || {};
+    function done(){ if (!opts.silent) showToast("Resumen copiado ✓"); }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(function(){ fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  function fallbackCopy(text, done){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      done();
+    }catch(e){
+      showToast("No se pudo copiar — selecciona el texto manualmente.");
+    }
+  }
+
+  var toastTimer;
+  function showToast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 2600);
+  }
+
+  function fetchRate(){
+    var dot = document.getElementById("fxDot");
+    var note = document.getElementById("fxNote");
+    var rateEl = document.getElementById("fxRate");
+    fetch("https://api.frankfurter.app/latest?from=USD&to=EUR")
+      .then(function(r){ if (!r.ok) throw new Error("bad response"); return r.json(); })
+      .then(function(data){
+        if (data && data.rates && typeof data.rates.EUR === "number"){
+          eurRate = data.rates.EUR;
+          rateEl.textContent = "≈ " + eurRate.toFixed(4).replace(".", ",");
+          note.textContent = "en vivo · " + (data.date || "");
+          dot.classList.remove("stale");
+        } else { throw new Error("shape"); }
+      })
+      .catch(function(){
+        eurRate = FALLBACK_RATE;
+        rateEl.textContent = "≈ " + FALLBACK_RATE.toFixed(4).replace(".", ",");
+        note.textContent = "referencia · 27 sep 2026";
+        dot.classList.add("stale");
+      })
+      .finally(render);
+  }
+
+  function initDownloads(){
+    try{
+      if (window.claude && typeof window.claude.use === "function"){
+        window.claude.use("downloads").then(function(d){
+          downloadsApi = d;
+          document.getElementById("pdfItem").hidden = !d;
+        }).catch(function(){ document.getElementById("pdfItem").hidden = true; });
+      } else {
+        document.getElementById("pdfItem").hidden = true;
+      }
+    }catch(e){ document.getElementById("pdfItem").hidden = true; }
+  }
+
+  function downloadPdf(){
+    if (!downloadsApi || !window.jspdf){ showToast("Descarga de PDF no disponible aquí."); return; }
+    try{
+      var doc = new window.jspdf.jsPDF({ unit:"pt", format:"a4" });
+      var margin = 48, y = 64, lineHeight = 16, maxWidth = 495;
+      doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+      doc.text("Propuesta de servicios", margin, y); y += 20;
+      doc.setFontSize(11); doc.setFont("helvetica", "normal");
+      doc.text("Sinapsis Agencia Digital", margin, y); y += 28;
+      doc.setFontSize(11);
+      var bodyLines = doc.splitTextToSize(lastSummaryText, maxWidth);
+      bodyLines.forEach(function(line){
+        if (y > 760){ doc.addPage(); y = 64; }
+        doc.text(line, margin, y);
+        y += lineHeight;
+      });
+      var blob = doc.output("blob");
+      downloadsApi.save({ filename: "propuesta-sinapsis-" + state.scope + ".pdf", data: blob })
+        .then(function(){ showToast("PDF guardado ✓"); })
+        .catch(function(err){
+          if (err && err.code === "declined") return;
+          showToast("No se pudo guardar el PDF.");
+        });
+    }catch(e){
+      showToast("No se pudo generar el PDF.");
+    }
+  }
+
+  // wire up static controls
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="scope"]'), function(el){
+    el.addEventListener("change", function(){ state.scope = this.value; render(); });
+  });
+  document.getElementById("crmToggle").addEventListener("change", function(){ state.crmEnabled = this.checked; render(); });
+
+  document.getElementById("btnCopy").addEventListener("click", function(){ copyText(lastSummaryText); });
+  document.getElementById("btnPdf").addEventListener("click", downloadPdf);
+
+  document.getElementById("btnWhatsapp").addEventListener("click", function(e){
+    if (!WHATSAPP_NUMBER){
+      e.preventDefault();
+      copyText(lastSummaryText, { silent:true });
+      showToast("WhatsApp aún no está activo — resumen copiado, pégalo donde quieras");
+    }
+  });
+  document.getElementById("btnConfirmSticky").addEventListener("click", function(e){
+    if (!WHATSAPP_NUMBER){
+      e.preventDefault();
+      copyText(lastSummaryText, { silent:true });
+      showToast("WhatsApp aún no está activo — resumen copiado, pégalo donde quieras");
+    }
+  });
+
+  render();
+  fetchRate();
+  initDownloads();
+})();
+</script>
+</body>
+</html>
